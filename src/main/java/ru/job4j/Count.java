@@ -1,13 +1,18 @@
 package ru.job4j;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
+@ThreadSafe
 public class Count {
+    @GuardedBy("this")
     private int value;
 
-    public void increment() {
+    public synchronized void increment() {
         value++;
     }
 
-    public int get() {
+    public synchronized int get() {
         return value;
     }
 }
