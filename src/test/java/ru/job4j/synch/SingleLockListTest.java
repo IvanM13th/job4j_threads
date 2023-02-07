@@ -6,20 +6,18 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
-
+import static org.assertj.core.api.Assertions.*;
 
 public class SingleLockListTest {
 
     @Test
-    public void whenIt(){
+    public void whenIt() {
         var init = new ArrayList<Integer>();
         SingleLockList<Integer> list = new SingleLockList<>(init);
         list.add(1);
         var it = list.iterator();
         list.add(2);
-        assertThat(1, is(it.next()));
+        assertThat(1).isEqualTo(it.next());
     }
 
     @Test
@@ -34,6 +32,6 @@ public class SingleLockListTest {
         second.join();
         Set<Integer> rsl = new TreeSet<>();
         list.iterator().forEachRemaining(rsl::add);
-        assertThat(rsl, is(Set.of(1, 2)));
+        assertThat(rsl).isEqualTo(Set.of(1, 2));
     }
 }
