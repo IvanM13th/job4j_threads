@@ -22,8 +22,8 @@ public class UserCache {
 
     public List<User> findAll() {
         List<User> listOfUsers = new ArrayList<>();
-        for (var key : users.keySet()) {
-            listOfUsers.add(User.of(users.get(key).getName()));
+        for (var user : users.values()) {
+            listOfUsers.add(User.of(user.getName()));
         }
         return listOfUsers;
     }
