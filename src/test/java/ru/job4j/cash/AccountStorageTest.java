@@ -1,8 +1,10 @@
 package ru.job4j.cash;
 
 import org.junit.jupiter.api.Test;
+import ru.job4j.concurrent.cash.Account;
+import ru.job4j.concurrent.cash.AccountStorage;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class AccountStorageTest {
 
