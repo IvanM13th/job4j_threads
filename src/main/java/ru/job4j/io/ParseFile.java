@@ -11,11 +11,19 @@ public class ParseFile {
         this.file = file;
     }
 
-    public synchronized String content(Predicate<Character> filter) {
+    public synchronized String getContent() {
+        return content(a -> a >= 0x80);
+    }
+
+    public synchronized String getContentWithoutUnicode() {
+        return content(a -> a < 0x80);
+    }
+
+    private String content(Predicate<Character> filter) {
         StringBuilder output = new StringBuilder();
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
             int data;
-            while ((data = in.read()) > 0) {
+            while ((data = in.read()) != -1) {
                 if (filter.test((char) data))
                     output.append((char) data);
             }
@@ -29,7 +37,7 @@ public class ParseFile {
         FileSaver fileSaver = new FileSaver();
         File f = Path.of("C:\\Users\\User\\Desktop\\newTextDoc.txt").toFile();
         ParseFile parseFile = new ParseFile(f);
-        String out = parseFile.content(a -> a < 0x80);
+        String out = parseFile.getContentWithoutUnicode();
         fileSaver.saveContent(out);
 
     }

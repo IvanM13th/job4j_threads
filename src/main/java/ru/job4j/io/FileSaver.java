@@ -10,7 +10,7 @@ public class FileSaver implements Saver {
     @Override
     public synchronized void saveContent(String content) {
         try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(TEMP_DIR))) {
-            for (int i = 0; i < content.length(); i += 1) {
+            for (int i = 0; i < content.length(); i++) {
                 out.write(content.charAt(i));
             }
         } catch (IOException e) {
