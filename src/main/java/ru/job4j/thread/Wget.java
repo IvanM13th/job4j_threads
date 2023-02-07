@@ -42,10 +42,12 @@ public class Wget implements Runnable {
             while ((bytesRead = in.read(dataBuffer, 0, speed)) != -1) {
                 out.write(dataBuffer, 0, bytesRead);
                 downloadedData += bytesRead;
-                if (downloadedData == speed && Duration.between(start, Instant.now()).toMillis() < SLEEP_TIME) {
-                    Thread.sleep(SLEEP_TIME);
-                    downloadedData = 0;
-                    start = Instant.now();
+                if (downloadedData >= speed) {
+                    if (Duration.between(start, Instant.now()).toMillis() < SLEEP_TIME) {
+                        Thread.sleep(SLEEP_TIME);
+                        downloadedData = 0;
+                        start = Instant.now();
+                    }
                 }
             }
         } catch (IOException | InterruptedException e) {
