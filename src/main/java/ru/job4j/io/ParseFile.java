@@ -12,7 +12,7 @@ public class ParseFile {
     }
 
     public synchronized String getContent() {
-        return content(a -> a >= 0x80);
+        return content(a -> true);
     }
 
     public synchronized String getContentWithoutUnicode() {
