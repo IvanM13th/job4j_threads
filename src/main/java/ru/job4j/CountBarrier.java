@@ -19,7 +19,6 @@ public class CountBarrier {
     public void await() {
         synchronized (monitor) {
             System.out.println("I am in await method");
-            System.out.println(count < total);
             while (count < total) {
                 try {
                     monitor.wait();
