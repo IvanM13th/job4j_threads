@@ -13,7 +13,7 @@ public class SimpleBlockingQueue<T> {
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
 
-    public synchronized void offer(T value) throws InterruptedException {
+    public synchronized void offer(T value) {
         notifyAll();
         queue.add(value);
     }
