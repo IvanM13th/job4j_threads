@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,23 +13,27 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void whenAddAndPollThenSameReturned() throws InterruptedException {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
         List<Integer> list = new ArrayList<>();
         Thread producer = new Thread(
                 () -> {
-                    queue.offer(5);
-                }
-        );
-        Thread consumer = new Thread(
-                () -> {
                     try {
-                            list.add(queue.poll());
+                           queue.offer(5);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
                 }
         );
         producer.start();
+        Thread consumer = new Thread(
+                () -> {
+                    try {
+                        list.add(queue.poll());
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+        );
         consumer.start();
         producer.join();
         consumer.interrupt();
@@ -41,12 +44,16 @@ public class SimpleBlockingQueueTest {
     @Test
     public void whenFetchAllThenGetIt() throws InterruptedException {
         final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
-        final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
+        final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
         Thread producer = new Thread(
                 () -> {
-                    IntStream.range(0, 7).forEach(
-                            queue::offer
-                    );
+                    for (int i = 0; i < 7; i++) {
+                        try {
+                            queue.offer(i);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
                 }
         );
         producer.start();
@@ -56,12 +63,12 @@ public class SimpleBlockingQueueTest {
                         try {
                             buffer.add(queue.poll());
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
                             Thread.currentThread().interrupt();
                         }
                     }
                 }
         );
+
         consumer.start();
         producer.join();
         consumer.interrupt();

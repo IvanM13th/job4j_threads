@@ -8,12 +8,19 @@ import java.util.Queue;
 
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
+    private final int limit;
 
+    public SimpleBlockingQueue(int limit) {
+        this.limit = limit;
+    }
 
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
 
-    public synchronized void offer(T value) {
+    public synchronized void offer(T value) throws InterruptedException {
+        while (queue.size() == limit) {
+            this.wait();
+        }
         notifyAll();
         queue.add(value);
     }
@@ -22,8 +29,9 @@ public class SimpleBlockingQueue<T> {
         while (queue.isEmpty()) {
             this.wait();
         }
+        T rsl = queue.poll();
         notifyAll();
-        return queue.poll();
+        return rsl;
     }
 
     public synchronized boolean isEmpty() {
