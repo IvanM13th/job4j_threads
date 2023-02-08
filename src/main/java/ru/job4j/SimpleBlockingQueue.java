@@ -11,7 +11,7 @@ public class SimpleBlockingQueue<T> {
 
 
     @GuardedBy("this")
-    private Queue<T> queue = new LinkedList<>();
+    private final Queue<T> queue = new LinkedList<>();
 
     public synchronized void offer(T value) {
         notifyAll();
@@ -24,5 +24,9 @@ public class SimpleBlockingQueue<T> {
         }
         notifyAll();
         return queue.poll();
+    }
+
+    public synchronized boolean isEmpty() {
+        return queue.isEmpty();
     }
 }
