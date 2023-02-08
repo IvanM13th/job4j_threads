@@ -12,14 +12,14 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void whenAddAndPollThenSameReturned() throws InterruptedException {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
         List<Integer> list = new ArrayList<>();
         Thread producer = new Thread(
                 () -> {
                     try {
                             queue.offer(5);
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        Thread.currentThread().interrupt();
                     }
                 }
         );
@@ -28,7 +28,7 @@ public class SimpleBlockingQueueTest {
                     try {
                             list.add(queue.poll());
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        Thread.currentThread().interrupt();
                     }
                 }
         );

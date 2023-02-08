@@ -8,19 +8,12 @@ import java.util.Queue;
 
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
-    private final int limit;
 
-    public SimpleBlockingQueue(int limit) {
-        this.limit = limit;
-    }
 
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
 
     public synchronized void offer(T value) throws InterruptedException {
-        while (queue.size() == limit) {
-            this.wait();
-        }
         notifyAll();
         queue.add(value);
     }
