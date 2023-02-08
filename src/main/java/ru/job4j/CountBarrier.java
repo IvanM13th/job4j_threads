@@ -11,21 +11,15 @@ public class CountBarrier {
 
     public void count() {
         synchronized (monitor) {
-            while (count < 10) {
-                System.out.println("Count now is " + count++ + " and total now is " + total);
-                monitor.notify();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            count++;
+            monitor.notify();
         }
     }
 
     public void await() {
         synchronized (monitor) {
             System.out.println("I am in await method");
+            System.out.println(count < total);
             while (count < total) {
                 try {
                     monitor.wait();
