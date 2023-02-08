@@ -31,11 +31,13 @@ public class CountBarrier {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        CountBarrier countBarrier = new CountBarrier(4);
+        CountBarrier countBarrier = new CountBarrier(6);
         Thread countThread = new Thread(
                 () ->  {
                     System.out.println(Thread.currentThread().getName() + " started");
-                    countBarrier.count();
+                        for (int i = 0; i < 10; i++) {
+                            countBarrier.count();
+                        }
                 }
         );
         Thread awaitThread = new Thread(
