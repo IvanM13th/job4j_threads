@@ -8,15 +8,14 @@ import java.util.List;
 public class ThreadPool {
     private final List<Thread> threads = new LinkedList<>();
     private final SimpleBlockingQueue<Runnable> tasks;
-    private boolean isStopped = false;
 
     public ThreadPool(int NoOfTasks) {
         tasks = new SimpleBlockingQueue<>(NoOfTasks);
         int noOfThreads = Runtime.getRuntime().availableProcessors();
-        for (int i = 0; i < noOfThreads; i++) {
+        while (!Thread.currentThread().isInterrupted() && threads.size() < noOfThreads) {
             threads.add(new Thread(() -> {
                 try {
-                    tasks.poll();
+                    tasks.poll().run();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -26,20 +25,20 @@ public class ThreadPool {
     }
 
     public synchronized void work(Runnable job) throws InterruptedException {
-        if (!isStopped) {
-            tasks.offer(job);
-        }
+        tasks.offer(job);
     }
 
     public synchronized void shutdown() {
-        isStopped = true;
         threads.forEach(Thread::interrupt);
     }
 
     public static void main(String[] args) throws InterruptedException {
         ThreadPool threadPool = new ThreadPool(5);
-        threadPool.work(() -> System.out.println("Test string to be printed in console"));
-        Thread.sleep(500);
+        threadPool.work(() -> System.out.println("Test text to printed in console"));
+        threadPool.work(() -> System.out.println("Test text to printed in console"));
+        threadPool.work(() -> System.out.println("Test text to printed in console"));
+        threadPool.work(() -> System.out.println("Test text to printed in console"));
+        threadPool.work(() -> System.out.println("Test text to printed in console"));
         threadPool.shutdown();
     }
 }
