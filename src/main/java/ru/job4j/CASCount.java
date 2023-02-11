@@ -20,8 +20,6 @@ public class CASCount {
         do {
             current = count.get();
             next = current + 1;
-            count.compareAndSet(current, next);
-            current = next;
         } while (!count.compareAndSet(current, next));
     }
 
