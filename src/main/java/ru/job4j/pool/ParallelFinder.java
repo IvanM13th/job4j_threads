@@ -3,14 +3,14 @@ package ru.job4j.pool;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
-public class ParallelFinder extends RecursiveTask<Integer> {
+public class ParallelFinder<T> extends RecursiveTask<Integer> {
 
-    private final int[] array;
+    private final T[] array;
     private final int from;
     private final int to;
-    private final int goal;
+    private final T goal;
 
-    public ParallelFinder(int[] array, int from, int to, int goal) {
+    public ParallelFinder(T[] array, int from, int to, T goal) {
         this.array = array;
         this.from = from;
         this.to = to;
@@ -19,38 +19,34 @@ public class ParallelFinder extends RecursiveTask<Integer> {
 
     @Override
     protected Integer compute() {
-        if (array.length <= 2) {
-            for (var n : array) {
-                if (n == goal) {
-                    return n;
-                }
-            }
-            return -1;
+        if (to - from <= 10) {
+            return findIndex();
         }
 
         int mid = (from + to) / 2;
 
-        ParallelFinder leftSearch = new ParallelFinder(array, from, mid, goal);
-        ParallelFinder rightSearch = new ParallelFinder(array, mid + 1, to, goal);
+        ParallelFinder<T> leftSearch = new ParallelFinder<>(array, from, mid, goal);
+        ParallelFinder<T> rightSearch = new ParallelFinder<>(array, mid + 1, to, goal);
 
         leftSearch.fork();
         rightSearch.fork();
 
-        return leftSearch.join() + rightSearch.join();
+        return Math.max(leftSearch.join(), rightSearch.join());
     }
 
-
-    public int find(int[] array) {
+    public Integer find(T[] array, T goal) {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
-        return forkJoinPool.invoke(new ParallelFinder(array, 0, array.length - 1, 1));
+        return forkJoinPool.invoke(new ParallelFinder<>(array, 0, array.length - 1, goal));
     }
 
-    public static void main(String[] args) {
-        int[] array = new int[]{19, 7, 1231, 11, 54, 44, 12312, 12, 324, 11, 2323, 5436, 12, 744, 1234};
-        ParallelFinder parallelFinder = new ParallelFinder(array, 0, array.length - 1, 1);
-        System.out.println(parallelFinder.find(array));
-
+    private int findIndex() {
+        int rsl = -1;
+        for (int i = from; i < to + 1; i++) {
+            if (goal.equals(array[i])) {
+                rsl = i;
+                break;
+            }
+        }
+        return rsl;
     }
-
 }
-
