@@ -22,26 +22,22 @@ public class ParallelFinder<T> extends RecursiveTask<Integer> {
         if (to - from <= 10) {
             return findIndex();
         }
-
         int mid = (from + to) / 2;
-
         ParallelFinder<T> leftSearch = new ParallelFinder<>(array, from, mid, goal);
         ParallelFinder<T> rightSearch = new ParallelFinder<>(array, mid + 1, to, goal);
-
         leftSearch.fork();
         rightSearch.fork();
-
         return Math.max(leftSearch.join(), rightSearch.join());
     }
 
-    public Integer find(T[] array, T goal) {
+    public static <T> Integer find(T[] array, T goal) {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         return forkJoinPool.invoke(new ParallelFinder<>(array, 0, array.length - 1, goal));
     }
 
     private int findIndex() {
         int rsl = -1;
-        for (int i = from; i < to + 1; i++) {
+        for (int i = from; i <= to; i++) {
             if (goal.equals(array[i])) {
                 rsl = i;
                 break;
