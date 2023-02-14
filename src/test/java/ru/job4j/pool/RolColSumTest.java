@@ -1,7 +1,6 @@
 package ru.job4j.pool;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 
@@ -40,7 +39,6 @@ public class RolColSumTest {
     }
 
 
-    @Disabled
     @Test
     public void whenCompareTime() throws ExecutionException, InterruptedException {
         LocalDateTime startNoAsync = LocalDateTime.now();

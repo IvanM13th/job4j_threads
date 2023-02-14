@@ -1,5 +1,7 @@
 package ru.job4j.pool;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -21,38 +23,38 @@ public class RolColSum {
         return sums;
     }
 
-    private static Sums[] generateArray(int[][] matrix) {
-        Sums[] sum = new Sums[matrix.length];
-        for (int i = 0; i < matrix.length; i++) {
-            sum[i] = new Sums();
-        }
-        return sum;
-    }
-
     public static Sums[] sum(int[][] matrix) {
-        Sums[] sum = generateArray(matrix);
+        Sums[] sums = new Sums[matrix.length];
         int n = matrix.length;
-        int bound = sum.length - 1;
+        int bound = sums.length - 1;
+        Map<Integer, Sums> futures = new HashMap<>();
         for (int i = 0; i < n / 2; i++) {
-            sum[i] = countRowsAndColumns(matrix, i);
+            futures.put(i, countRowsAndColumns(matrix, i));
             if (i < n / 2) {
-                sum[bound - i] = countRowsAndColumns(matrix, bound - i);
+                futures.put(bound - i, countRowsAndColumns(matrix, bound - i));
             }
         }
-        return sum;
+        for (var key : futures.keySet()) {
+            sums[key] = futures.get(key);
+        }
+        return sums;
     }
 
     public static Sums[] asyncSum(int[][] matrix) throws ExecutionException, InterruptedException {
-        Sums[] sum = generateArray(matrix);
+        Sums[] sums = new Sums[matrix.length];
         int n = matrix.length;
-        int bound = sum.length - 1;
+        int bound = sums.length - 1;
+        Map<Integer, CompletableFuture<Sums>> futures = new HashMap<>();
         for (int i = 0; i < n / 2; i++) {
-            sum[i] = countAsync(matrix, i).get();
+            futures.put(i, countAsync(matrix, i));
             if (i < n / 2) {
-                sum[bound - i] = countAsync(matrix, bound - i).get();
+                futures.put(bound - i, countAsync(matrix, bound - i));
             }
         }
-        return sum;
+        for (var key : futures.keySet()) {
+            sums[key] = futures.get(key).get();
+        }
+        return sums;
     }
 
     public static CompletableFuture<Sums> countAsync(int[][] data, int rowOrColumn) {
