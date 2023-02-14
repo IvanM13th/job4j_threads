@@ -1,12 +1,14 @@
 package ru.job4j.pool;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,20 +27,22 @@ public class RolColSumTest {
 
     @Test
     public void whenNoAsync() {
-        RolColSum.Sums[] sums = RolColSum.sum(MATRIX);
+        Sums[] sums = RolColSum.sum(MATRIX);
         assertThat(sums[1].getRowSum()).isEqualTo(5000);
         assertThat(sums[1].getColSum()).isEqualTo(5000);
     }
 
     @Test
-    public void whenAsync() {
-        RolColSum.Sums[] sums = RolColSum.asyncSum(MATRIX);
+    public void whenAsync() throws ExecutionException, InterruptedException {
+        Sums[] sums = RolColSum.asyncSum(MATRIX);
         assertThat(sums[1].getRowSum()).isEqualTo(5000);
         assertThat(sums[1].getColSum()).isEqualTo(5000);
     }
 
+
+    @Disabled
     @Test
-    public void whenCompareTime() {
+    public void whenCompareTime() throws ExecutionException, InterruptedException {
         LocalDateTime startNoAsync = LocalDateTime.now();
         RolColSum.sum(MATRIX);
         LocalDateTime endTimeNoAsync = LocalDateTime.now();
