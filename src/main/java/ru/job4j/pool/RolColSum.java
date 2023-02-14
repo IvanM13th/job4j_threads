@@ -60,5 +60,4 @@ public class RolColSum {
     public static CompletableFuture<Sums> countAsync(int[][] data, int rowOrColumn) {
         return CompletableFuture.supplyAsync(() -> countRowsAndColumns(data, rowOrColumn));
     }
-
 }
