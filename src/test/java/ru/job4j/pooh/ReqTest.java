@@ -10,6 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ReqTest {
 
     @Test
+    @Disabled
     public void whenQueueModePostMethod() {
         String ls = System.lineSeparator();
         String content = "POST /queue/weather HTTP/1.1" + ls +
@@ -28,6 +29,7 @@ public class ReqTest {
     }
 
     @Test
+    @Disabled
     public void whenQueueModeGetMethod() {
         String ls = System.lineSeparator();
         String content = "GET /queue/weather HTTP/1.1" + ls

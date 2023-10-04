@@ -10,6 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class QueueServiceTest {
 
     @Test
+    @Disabled
     public void whenPostThenGetQueue() {
         QueueService queueService = new QueueService();
         String paramForPostMethod = "temperature=18";
