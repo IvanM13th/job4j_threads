@@ -7,13 +7,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class MatrixDiagonalSum {
     public static int[] asyncSum(int[][] matrix) throws Exception {
-        //находим длину матрицы
         int n = matrix.length;
-        //создаем массив для подсчет сумма и взоврата
         int[] sums = new int[2 * n];
-        //создаем мапу для хранения чего-то
         Map<Integer, CompletableFuture<Integer>> futures = new HashMap<>();
-        //добавляем в мапу числа главной диагоналои
         futures.put(0, getMainDiagonalTask(matrix, 0, n - 1, 0));
         for (int k = 1; k <= n; k++) {
             futures.put(k, getTask(matrix, 0, k - 1, k - 1));
