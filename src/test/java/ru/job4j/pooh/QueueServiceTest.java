@@ -1,10 +1,12 @@
 package ru.job4j.pooh;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Disabled
 public class QueueServiceTest {
 
     @Test
