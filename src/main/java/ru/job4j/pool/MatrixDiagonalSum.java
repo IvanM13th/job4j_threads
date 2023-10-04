@@ -72,8 +72,7 @@ public class MatrixDiagonalSum {
         matrix[2][0] = 7;
         matrix[2][1] = 8;
         matrix[2][2] = 9;
-
-
+        
         System.out.println(Arrays.toString(asyncSum(matrix)));
 
     }

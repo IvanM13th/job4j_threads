@@ -11,7 +11,6 @@ public class ValueSumCounter extends RecursiveTask<Integer> {
         this.array = array;
     }
 
-
     @Override
     protected Integer compute() {
         if (array.length <= 2) {

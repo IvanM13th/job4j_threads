@@ -1,6 +1,5 @@
 package ru.job4j.pooh;
 
-
 public class Req {
 
     private static final String POST = "POST";
@@ -27,7 +26,7 @@ public class Req {
         String source = sourceToParse[0];
         String param;
         if (POST.equals(type)) {
-           param = rsl[rsl.length -1];
+           param = rsl[rsl.length - 1];
         } else {
             param = QUEUE.equals(mode)
                     ? "" : parse[3].substring(0, parse[3].length() - 5);

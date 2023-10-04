@@ -28,12 +28,10 @@ public class Base {
 
     @Override
     public String toString() {
-        return "Base{" +
-                "id=" + id +
-                ", version=" + version +
-                ", name='" + name + '\'' +
-                '}';
+        return "Base{"
+                + "id=" + id
+                + ", version=" + version
+                + ", name='" + name + '\''
+                + '}';
     }
-
-
 }

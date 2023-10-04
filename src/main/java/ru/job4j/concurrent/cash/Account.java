@@ -1,4 +1,4 @@
 package ru.job4j.concurrent.cash;
 
-public record Account(int id,int amount) {
+public record Account(int id, int amount) {
 }

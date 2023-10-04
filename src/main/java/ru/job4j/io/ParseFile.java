@@ -24,8 +24,9 @@ public class ParseFile {
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
             int data;
             while ((data = in.read()) != -1) {
-                if (filter.test((char) data))
+                if (filter.test((char) data)) {
                     output.append((char) data);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

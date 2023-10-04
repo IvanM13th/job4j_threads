@@ -71,7 +71,7 @@ public class CompletableFutureEx {
     public static void supplyAsyncExample() throws Exception {
         CompletableFuture<String> bm = buyProduct("Milk");
         iWork();
-        System.out.println("Received: " + bm.get() );
+        System.out.println("Received: " + bm.get());
     }
 
     public static void main(String[] args) throws Exception {

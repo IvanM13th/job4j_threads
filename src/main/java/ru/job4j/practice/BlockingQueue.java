@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 
-
 public class BlockingQueue<T> {
     private final Queue<T> tasks = new LinkedList<>();
 
@@ -33,8 +32,7 @@ public class BlockingQueue<T> {
             for (int i = 1; i < 10; i++) {
                 try {
                     System.out.println("This is callable number " + rsl.call());
-
-                    System.out.println(tl.get());;
+                    System.out.println(tl.get());
                     Thread.sleep(300);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -46,7 +44,7 @@ public class BlockingQueue<T> {
 
         BlockingQueue<String> blockingQueue = new BlockingQueue<>();
         List<Thread> threads = new ArrayList<>();
-        for (int i = 0 ; i < Runtime.getRuntime().availableProcessors() / 2; i++) {
+        for (int i = 0; i < Runtime.getRuntime().availableProcessors() / 2; i++) {
             Thread thread = new Thread(() -> {
                 while (!Thread.currentThread().isInterrupted()) {
                     try {

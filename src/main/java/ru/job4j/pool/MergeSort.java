@@ -46,7 +46,6 @@ public class MergeSort {
         return result;
     }
 
-
     public static void main(String[] args) {
         int[] array = new int[]{1, 4, 8, 98, 545, 24, 1123, 436, 2, 34634, 1123, 346, 5685, 123, 31, 54};
         int[] sortedArray = MergeSort.sort(array);

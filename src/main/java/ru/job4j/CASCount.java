@@ -4,7 +4,6 @@ import net.jcip.annotations.ThreadSafe;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-
 @ThreadSafe
 public class CASCount {
 
